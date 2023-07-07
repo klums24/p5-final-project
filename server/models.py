@@ -1,5 +1,5 @@
 from sqlalchemy_serializer import SerializerMixin
-from config import db
+
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
@@ -31,9 +31,22 @@ class Client(db.Model, SerializerMixin):
     workouts = db.relationship("Workout", back_populates="client")
 
 #Create Trainer class
+#first name, last name, email, password, specialization, bio
+class Trainer(db.Model, SerializerMixin):
+    __tablename__ = "trainers"
 
+    id = db.Column(db.Integer, primary_key= True)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    specialization = db.Column(db.String, nullable=False)
+    bio = db.Column(db.String, nullable=False)
 
-#Crate Workout class
+    clients = association_proxy("workouts", "client")
+    workouts = db.relationship("Workout", back_populates="trainer")
+
+#Create Workout class
 #id, client_id, trainer_id, workout_type, date, start_time, end_time
 class Workout(db.Model, SerializerMixin):
     __tablename__ = "workouts"
@@ -49,4 +62,16 @@ class Workout(db.Model, SerializerMixin):
 
     client = db.relationship("Client", back_populates="workouts")
     trainer = db.relationship("Trainer", back_populates="workouts")
-    
+
+
+#Create Routine class
+class Routine(db.Model, SerializerMixin):
+    pass
+
+
+
+
+
+#Create Exercise class
+class Exercise(db.Model, SerializerMixin):
+    pass
