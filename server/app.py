@@ -9,6 +9,9 @@ from flask_restful import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
+
+from models import Workout, Client, Trainer, db
+
 # Local imports
 # from config import app
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -33,3 +36,26 @@ db.init_app(app)
 
 # Instantiate CORS
 CORS(app)
+
+
+#workouts route
+class Workouts(Resource):
+
+    def get(self):
+        workouts = [workout.to_dict() for workout in Workout.query.all()]
+        if workouts:
+            return make_response(workouts, 200)
+        return make_response("Did not retrieve any workouts", 404)
+
+api.add_resource(Workouts, "/workouts")
+
+#trainers route
+class Trainers(Resource):
+
+    def get(self):
+        trainers = [trainer.to_dict() for trainer in Trainer.query.all()]
+        if trainers:
+            return make_response(trainers, 200)
+        return make_response("Did not find any trainers", 404)
+
+api.add_resource(Trainers, "/trainers")
