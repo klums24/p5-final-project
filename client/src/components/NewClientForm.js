@@ -132,7 +132,7 @@ function NewClientForm({saveClient, handleToggleForm}) {
             Existing user? Click here to login
           </Button>
         </div>
-      );
-      }
+    );
+}
       
       export default NewClientForm;
