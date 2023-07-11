@@ -30,6 +30,8 @@ class Client(db.Model, SerializerMixin):
     trainers = association_proxy("workouts", "trainer")
     workouts = db.relationship("Workout", back_populates="client")
 
+    serialize_only = ("id", "first_name", "last_name", "email")
+    serialize_rules = ("-workouts.client", "-trainers.clients")
 #Create Trainer class
 #first name, last name, email, password, specialization, bio
 class Trainer(db.Model, SerializerMixin):
@@ -46,6 +48,8 @@ class Trainer(db.Model, SerializerMixin):
     clients = association_proxy("workouts", "client")
     workouts = db.relationship("Workout", back_populates="trainer")
 
+    serialize_only = ("id", "first_name", "last_name", "email", "specialization", "bio")
+    serialize_rules = ("-workouts.trainer", "-clients.trainers")
 #Create Workout class
 #id, client_id, trainer_id, workout_type, date, start_time, end_time
 class Workout(db.Model, SerializerMixin):
@@ -57,21 +61,49 @@ class Workout(db.Model, SerializerMixin):
 
     workout_type = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    start_time = db.Column(db.Time, nullable=False)
-    end_time = db.Column(db.Time, nullable=False)
+    start_time = db.Column(db.String, nullable=False)
+    end_time = db.Column(db.String, nullable=False)
 
     client = db.relationship("Client", back_populates="workouts")
     trainer = db.relationship("Trainer", back_populates="workouts")
 
+    routines = db.relationship("Routine", back_populates="workout")
+
+    serialize_only = ("id", "client_id", "trainer_id", "workout_type", "date", "start_time", "end_time")
+    serialize_rules = ("-client.workouts", "-trainer.workouts")
+    #is association proxy to exercise needed here?
+
 
 #Create Routine class
+#workout_id, exercise_id
 class Routine(db.Model, SerializerMixin):
-    pass
+
+    __tablename__ = "routines"
+
+    id = db.Column(db.Integer, primary_key=True)
+    workout_id = db.Column(db.Integer, db.ForeignKey("workouts.id"))
+    exercise_id = db.Column(db.Integer, db.ForeignKey("exercises.id"))
+
+    workout = db.relationship("Workout", back_populates="routines")
+    exercise = db.relationship("Exercise", back_populates="routines")
+
 
 
 
 
 
 #Create Exercise class
+#name, reps, duration, difficulty
 class Exercise(db.Model, SerializerMixin):
-    pass
+
+    __tablename__ = "exercises"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    reps = db.Column(db.Integer)
+    duration = db.Column(db.Integer)
+    difficulty = db.Column(db.String)
+
+    routines = db.relationship("Routine", back_populates="exercise")
+
+    #do i need associatyion proxy to workout here?
