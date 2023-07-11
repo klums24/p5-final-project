@@ -21,8 +21,8 @@ DATABASE = os.environ.get(
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = "SuperSecretKey"
-app.json.compact = False
+
+
 
 
 metadata = MetaData(naming_convention={
@@ -31,11 +31,30 @@ metadata = MetaData(naming_convention={
 
 migrate = Migrate(app, db)
 
-api=Api(app, prefix="/api/v1")
 db.init_app(app)
+api=Api(app)
+
 
 # Instantiate CORS
 CORS(app)
+
+
+
+@app.route('/')
+def index():
+    return "<h1>PerfectFit</h1>"
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    try:
+        data = request.get_json()
+        new_client = Client(**data)
+        db.session.add(new_client)
+        db.session.commit()
+        session["client_id"] = new_client.id
+        return make_response(new_client.to_dict(), 201)
+    except Exception as e:
+        return make_response({"error": str(e)}, 400)
 
 
 #workouts route
@@ -59,3 +78,6 @@ class Trainers(Resource):
         return make_response("Did not find any trainers", 404)
 
 api.add_resource(Trainers, "/trainers")
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
