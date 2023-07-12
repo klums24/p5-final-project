@@ -12,15 +12,6 @@ function NewClientForm({saveClient, handleToggleForm}) {
       password: yup.string()
         .required("Please enter your password")
         .min(8, "Password must contain at least 8 characters"),
-      user_name: yup.string()
-        .required("Please enter your user name")
-        .min(4, "Username must contain at least 4 characters")
-        .max(10, "Username length should be 10 characters maximum"),
-      age: yup
-        .number()
-        .required("Please enter your age")
-        .min(18, "You must be at least 18 years old to sign up")
-        .max(90, "Age cannot exceed 90 years old"),
     });
       const formik = useFormik ({
           initialValues: {
@@ -31,7 +22,8 @@ function NewClientForm({saveClient, handleToggleForm}) {
           },
           validationSchema: userSchema,
           onSubmit: values => {
-              fetch("/api/v1/signup", {
+              console.log('Form submitted:', values)
+              fetch("/signup", {
                   method:"POST",
                   headers: {
                       "Content-Type": "application/json",   
