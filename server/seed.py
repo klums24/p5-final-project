@@ -13,9 +13,9 @@ if __name__ == '__main__':
         Exercise.query.delete()
 
         #create some clients
-        c1 = Client(first_name = "David", last_name = "Slingshot", email = "goliathslayer@gmail.com", password = "wwww")
-        c2 = Client(first_name = "Jane", last_name = "Smith", email = "janesmith2@gmail.com", password = "ssss")
-        c3 = Client(first_name = "Sarah", last_name = "Marshall", email = "dontforgetme@gmail.com", password = "wwww")
+        c1 = Client(first_name = "David", last_name = "Slingshot", email = "goliathslayer@gmail.com", _password_hash = "wwww")
+        c2 = Client(first_name = "Jane", last_name = "Smith", email = "janesmith2@gmail.com", _password_hash = "ssss")
+        c3 = Client(first_name = "Sarah", last_name = "Marshall", email = "dontforgetme@gmail.com", _password_hash = "wwww")
 
         clients = [c1, c2, c3]
         db.session.add_all(clients)

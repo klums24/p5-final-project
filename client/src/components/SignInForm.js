@@ -9,7 +9,7 @@ function SignInForm({saveClient, handleToggleForm}) {
       email: yup.string().required("Must enter an email"),
       password: yup.string()
         .required("Please enter your password")
-        .min(8, "Password must contain at least 8 characters"),
+        .min(4, "Password must contain at least 8 characters"),
     });
       const formik = useFormik ({
           initialValues: {
@@ -18,7 +18,7 @@ function SignInForm({saveClient, handleToggleForm}) {
           },
           validationSchema: userSchema,
           onSubmit: values => {
-              fetch("/api/v1/signup", {
+              fetch("/signin", {
                   method:"POST",
                   headers: {
                       "Content-Type": "application/json",   

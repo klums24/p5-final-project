@@ -12,6 +12,7 @@ flask-sqlalchemy = "*"
 sqlalchemy = "*"
 "sqlalchemy.orm" = "*"
 sqlalchemy-serializer = "*"
+flask-bcrypt = "*"
 
 [dev-packages]
 

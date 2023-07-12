@@ -21,7 +21,7 @@ DATABASE = os.environ.get(
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.secret_key = "IgnoreMe"
 
 
 
@@ -31,8 +31,9 @@ metadata = MetaData(naming_convention={
 
 migrate = Migrate(app, db)
 
-db.init_app(app)
 api=Api(app)
+db.init_app(app)
+
 
 
 # Instantiate CORS
@@ -44,18 +45,38 @@ CORS(app)
 def index():
     return "<h1>PerfectFit</h1>"
 
-@app.route("/signup", methods=["POST"])
-def signup():
-    try:
-        data = request.get_json()
-        new_client = Client(**data)
-        db.session.add(new_client)
-        db.session.commit()
-        session["client_id"] = new_client.id
-        return make_response(new_client.to_dict(), 201)
-    except Exception as e:
-        return make_response({"error": str(e)}, 400)
 
+class Signup(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            new_client = Client(
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+                email=data["email"],
+                password_hash=data["password"],
+            )
+            db.session.add(new_client)
+            db.session.commit()
+            session["client_id"] = new_client.id
+            return make_response(new_client.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
+api.add_resource(Signup, "/signup")
+
+
+class SignIn(Resource):
+
+    def post(self):
+        data = request.get_json()
+        if client := Client.query.filter(Client.email == data.get("email")).first():
+            if client.authenticate(data.get("password")):
+                session["client_id"] = client.id
+                return make_response(client.to_dict(), 200)
+        return make_response({"error": "Unauthorized"}, 401)
+    
+api.add_resource(SignIn, "/signin")
 
 #workouts route
 class Workouts(Resource):
