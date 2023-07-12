@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 import NewClientForm from './NewClientForm';
 import SigninForm from './SignInForm';
+import ClientProfile from './ClientProfile'
 
 function App() {
 
@@ -18,6 +19,23 @@ function App() {
         setShowSigninForm(value => !value);
     };
 
+    useEffect(() => {
+        fetch("/check-user")
+        .then(response => {
+          if (response.ok){
+            response.json()
+            .then(saveClient)
+          }
+        })
+    }, [])
+
+    const handleSignOutClick= () => {
+        fetch("/signout", {method: "DELETE"})
+        .then(() => {
+        setCurrentClient(null);   
+        },);
+    }
+
     if (!currentClient) {
         return (
             <>
@@ -27,7 +45,13 @@ function App() {
     }
 
     return (
-        <div>App</div>
+        <div>
+            <Switch>
+                <Route exact path ="/profile">
+                    <ClientProfile handleSignOutClick={handleSignOutClick}/>
+                </Route>
+            </Switch>
+        </div>
     );
 }
 

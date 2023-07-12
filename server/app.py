@@ -45,6 +45,12 @@ CORS(app)
 def index():
     return "<h1>PerfectFit</h1>"
 
+@app.route("/check-user", methods=["GET"])
+def check_user():
+    if id := session.get("client_id"):
+        if client := db.session.get(Client, id):
+            return make_response(client.to_dict(), 200)
+    return make_response({"error": "Unauthorized"}, 401)
 
 class Signup(Resource):
     def post(self):
@@ -66,6 +72,8 @@ class Signup(Resource):
 api.add_resource(Signup, "/signup")
 
 
+
+
 class SignIn(Resource):
 
     def post(self):
@@ -77,6 +85,16 @@ class SignIn(Resource):
         return make_response({"error": "Unauthorized"}, 401)
     
 api.add_resource(SignIn, "/signin")
+
+class SignOut(Resource):
+    def delete(self):
+        
+        session["client_id"] = None
+                
+        return make_response({}, 204)
+        
+
+api.add_resource(SignOut, "/signout")
 
 #workouts route
 class Workouts(Resource):
