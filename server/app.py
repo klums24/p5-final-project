@@ -118,5 +118,26 @@ class Trainers(Resource):
 
 api.add_resource(Trainers, "/trainers")
 
+
+#client by id
+class ClientById(Resource):
+
+    def get(self, id):
+        client = db.session.get(Client, id)
+        if client:
+            return make_response(client.to_dict(), 200)
+        return make_response({"error": "Client not found"}, 404)
+    
+    def delete(self, id):
+        try:
+            client = db.session.get(Client, id)
+            db.session.delete(client)
+            db.session.commit()
+            return make_response({}, 204)
+        except Exception as e:
+            return make_response({"error": str(e)}, 404)
+
+api.add_resource(ClientById, "/clients/<int:id>")
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

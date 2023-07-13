@@ -47,8 +47,8 @@ function App() {
     return (
         <div>
             <Switch>
-                <Route exact path ="/profile">
-                    <ClientProfile handleSignOutClick={handleSignOutClick}/>
+                <Route exact path ="/">
+                    <ClientProfile handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient}/>
                 </Route>
             </Switch>
         </div>
