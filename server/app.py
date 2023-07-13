@@ -61,6 +61,7 @@ class Signup(Resource):
                 last_name=data["last_name"],
                 email=data["email"],
                 password_hash=data["password"],
+                main_goal=data["main_goal"]
             )
             db.session.add(new_client)
             db.session.commit()
@@ -136,6 +137,17 @@ class ClientById(Resource):
             return make_response({}, 204)
         except Exception as e:
             return make_response({"error": str(e)}, 404)
+
+    def patch(self, id):
+        try:
+            data = request.get_json()
+            client = db.session.get(Client, id)
+            for key, value in data.items():
+                setattr(client, key, value)
+            db.session.commit()
+            return make_response(client.to_dict(), 200)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
 
 api.add_resource(ClientById, "/clients/<int:id>")
 

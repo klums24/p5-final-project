@@ -12,6 +12,7 @@ function NewClientForm({saveClient, handleToggleForm}) {
       password: yup.string()
         .required("Please enter your password")
         .min(8, "Password must contain at least 8 characters"),
+      main_goal: yup.string().required("Please select a workout goal"),
     });
       const formik = useFormik ({
           initialValues: {
@@ -19,6 +20,7 @@ function NewClientForm({saveClient, handleToggleForm}) {
               last_name: "",
               email: "",
               password: "",
+              main_goal: "",
           },
           validationSchema: userSchema,
           onSubmit: values => {
@@ -118,6 +120,37 @@ function NewClientForm({saveClient, handleToggleForm}) {
               )}
             </div>
     
+            {/* Select tag for dropdown       */}
+            <div className="form-group">
+              <label htmlFor="main_goal">Main goal for workout:</label>
+              <select
+                id="main_goal"
+                name="main_goal"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.main_goal}
+                
+              >
+                <option value="" label="Select an option">
+                  Select an option
+                </option>
+                <option value="Weight loss" label="Weight Loss">
+                  Weight Loss
+                </option>
+                <option value="Increase strength" label="Increase Strength">
+                  Increase Strength
+                </option>
+                <option value="Improve cardio" label="Improve cardio">
+                  Improve cardio
+                </option>
+
+              </select>
+              {formik.touched.main_goal && formik.errors.main_goal && (
+                <div className="error">{formik.errors.main_goal}</div>
+              )}
+            </div>
+
             <Button type="submit" variant="contained" color="primary" size="small">Submit</Button>
           </form>
           <Button onClick={handleToggleForm} variant="text">
