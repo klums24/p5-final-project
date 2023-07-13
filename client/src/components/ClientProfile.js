@@ -1,35 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 
-function ClientProfile({handleSignOutClick, currentClient, saveClient}) {
+function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick}) {
 
-  const history = useHistory();
+
   const {first_name, last_name, id} = currentClient
-
-  const handleTrainersClick = () => {
-    history.push('/trainers');
-  };
-
-  const handleCreateWorkoutClick = () => {
-    history.push('/create-workout');
-  };
-
-  const handleEditProfileClick = () => {
-    history.push(`/clients/${id}/edit-profile`);
-  };
-
-  const handleDeleteAccountClick = () => {
-    fetch(`/clients/${id}`, {
-      method: "DELETE"
-    })
-    .then(response => {
-      if (response.ok){
-        saveClient(null)    
-      }
-    })
-    .catch(e => console.error(e))
-  };
 
   
 
@@ -61,6 +36,7 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient}) {
           </Box>
         </Toolbar>
       </AppBar>
+      <h2 class="profile-header">{first_name}</h2>
     </div>
   );
 }

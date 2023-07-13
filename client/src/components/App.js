@@ -1,16 +1,33 @@
 import React from 'react';
 import { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 
 import NewClientForm from './NewClientForm';
 import SigninForm from './SignInForm';
 import ClientProfile from './ClientProfile'
 import EditProfileForm from './EditProfileForm';
+import TrainerCollection from './TrainerCollection';
 
 function App() {
 
+    const history = useHistory();
     const [currentClient, setCurrentClient] = useState(null);
     const [showSigninForm, setShowSigninForm] = useState(false);
+    const [trainers, setTrainers] = useState([])
+
+    
+
+    useEffect(() => {
+        fetch("/trainers")
+        .then(response => {
+            if (response.ok) {
+                response.json()
+                .then(data => {
+                    setTrainers(data)
+                })
+            }
+        })
+    }, [])
 
     const saveClient = (new_client) => {
         setCurrentClient(new_client);
@@ -19,6 +36,30 @@ function App() {
     const handleToggleForm = () => {
         setShowSigninForm(value => !value);
     };
+
+    const handleEditProfileClick = () => {
+        history.push(`/clients/${currentClient.id}/edit-profile`);
+      };
+
+      const handleTrainersClick = () => {
+        history.push('/trainers');
+      };
+    
+      const handleCreateWorkoutClick = () => {
+        history.push('/create-workout');
+      };
+    
+      const handleDeleteAccountClick = () => {
+        fetch(`/clients/${currentClient.id}`, {
+          method: "DELETE"
+        })
+        .then(response => {
+          if (response.ok){
+            saveClient(null)    
+          }
+        })
+        .catch(e => console.error(e))
+      };
 
     useEffect(() => {
         fetch("/check-user")
@@ -49,10 +90,13 @@ function App() {
         <div>
             <Switch>
                 <Route exact path ="/">
-                    <ClientProfile handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient}/>
+                    <ClientProfile handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
                 </Route>
                 <Route path = "/clients/:id/edit-profile">
-                    <EditProfileForm />
+                    <EditProfileForm handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
+                </Route>
+                <Route path = "/trainers">
+                    <TrainerCollection trainers={trainers} handleSignOutClick={handleSignOutClick} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
                 </Route>
             </Switch>
         </div>
