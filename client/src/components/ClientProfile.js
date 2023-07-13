@@ -15,6 +15,10 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient}) {
     history.push('/create-workout');
   };
 
+  const handleEditProfileClick = () => {
+    history.push(`/clients/${id}/edit-profile`);
+  };
+
   const handleDeleteAccountClick = () => {
     fetch(`/clients/${id}`, {
       method: "DELETE"
@@ -34,7 +38,7 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient}) {
       <AppBar position="static">
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box>
-            <Typography variant="h6" component="div" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
+            <Typography variant="h4" component="div" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
               PerfectFit
             </Typography>
           </Box>
@@ -44,6 +48,9 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient}) {
             </Button>
             <Button onClick={handleCreateWorkoutClick} color="inherit">
               Create a workout
+            </Button>
+            <Button onClick={handleEditProfileClick} color="inherit">
+              Edit Profile
             </Button>
             <Button onClick={handleDeleteAccountClick} color="inherit">
               Delete account

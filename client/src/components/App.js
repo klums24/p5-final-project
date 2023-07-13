@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import NewClientForm from './NewClientForm';
 import SigninForm from './SignInForm';
 import ClientProfile from './ClientProfile'
+import EditProfileForm from './EditProfileForm';
 
 function App() {
 
@@ -49,6 +50,9 @@ function App() {
             <Switch>
                 <Route exact path ="/">
                     <ClientProfile handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient}/>
+                </Route>
+                <Route path = "/clients/:id/edit-profile">
+                    <EditProfileForm />
                 </Route>
             </Switch>
         </div>

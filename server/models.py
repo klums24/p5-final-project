@@ -28,7 +28,7 @@ class Client(db.Model, SerializerMixin):
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-
+    main_goal = db.Column(db.String, nullable=False)
     trainers = association_proxy("workouts", "trainer")
     workouts = db.relationship("Workout", back_populates="client")
 
