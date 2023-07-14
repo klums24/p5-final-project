@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
 
-from models import Workout, Client, Trainer, db
+from models import Workout, Client, Trainer, Exercise, db
 
 # Local imports
 # from config import app
@@ -150,6 +150,28 @@ class ClientById(Resource):
             return make_response({"error": str(e)}, 400)
 
 api.add_resource(ClientById, "/clients/<int:id>")
+
+
+class Exercises(Resource):
+
+    def post(self):
+        try:
+            data = request.get_json()
+            exercise = Exercise(
+                name=data["name"],
+                reps=data["reps"],
+                duration=data["duration"],
+                difficulty=data["difficulty"],
+            )
+            db.session.add(exercise)
+            db.session.commit()
+
+            return make_response(exercise.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
+api.add_resource(Exercises, "/exercises")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

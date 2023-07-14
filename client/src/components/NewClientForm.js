@@ -12,7 +12,6 @@ function NewClientForm({saveClient, handleToggleForm}) {
       password: yup.string()
         .required("Please enter your password")
         .min(8, "Password must contain at least 8 characters"),
-      main_goal: yup.string().required("Please select a workout goal"),
     });
       const formik = useFormik ({
           initialValues: {
@@ -20,7 +19,6 @@ function NewClientForm({saveClient, handleToggleForm}) {
               last_name: "",
               email: "",
               password: "",
-              main_goal: "",
           },
           validationSchema: userSchema,
           onSubmit: values => {
@@ -119,8 +117,6 @@ function NewClientForm({saveClient, handleToggleForm}) {
                 <div className="error">{formik.errors.password}</div>
               )}
             </div>
-    
-            {/* Select tag for dropdown       */}
             <div className="form-group">
               <label htmlFor="main_goal">Main goal for workout:</label>
               <select
@@ -149,8 +145,8 @@ function NewClientForm({saveClient, handleToggleForm}) {
               {formik.touched.main_goal && formik.errors.main_goal && (
                 <div className="error">{formik.errors.main_goal}</div>
               )}
-            </div>
-
+            </div>      
+            
             <Button type="submit" variant="contained" color="primary" size="small">Submit</Button>
           </form>
           <Button onClick={handleToggleForm} variant="text">

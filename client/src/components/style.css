@@ -23,3 +23,12 @@
 .trainer-card p {
     margin-bottom: 8px;
   }
+
+.book-workout-button {
+    background-color: #3B71CA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
