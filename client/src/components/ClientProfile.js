@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 
-function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick}) {
+function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick}) {
 
 
   const {first_name, last_name, id} = currentClient
@@ -27,6 +27,9 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEdi
             <Button onClick={handleEditProfileClick} color="inherit">
               Edit Profile
             </Button>
+            <Button onClick={handleContactUsClick} color="inherit">
+              Contact Us
+            </Button>
             <Button onClick={handleDeleteAccountClick} color="inherit">
               Delete account
             </Button>
@@ -36,7 +39,7 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEdi
           </Box>
         </Toolbar>
       </AppBar>
-      <h2 class="profile-header">{first_name}</h2>
+      <h2 className="profile-header">{first_name}</h2>
     </div>
   );
 }

@@ -7,6 +7,11 @@ import SigninForm from './SignInForm';
 import ClientProfile from './ClientProfile'
 import EditProfileForm from './EditProfileForm';
 import TrainerCollection from './TrainerCollection';
+import NewExerciseForm from './NewExerciseForm';
+import {UserContext} from './UserContext';
+import ContactUsForm from './ContactUsForm';
+
+
 
 function App() {
 
@@ -39,17 +44,21 @@ function App() {
 
     const handleEditProfileClick = () => {
         history.push(`/clients/${currentClient.id}/edit-profile`);
-      };
+    };
 
-      const handleTrainersClick = () => {
+    const handleTrainersClick = () => {
         history.push('/trainers');
-      };
+    };
     
-      const handleCreateWorkoutClick = () => {
+    const handleCreateWorkoutClick = () => {
         history.push('/create-workout');
-      };
+    };
+
+    const handleContactUsClick = () => {
+        history.push('/contact-us')
+    }
     
-      const handleDeleteAccountClick = () => {
+    const handleDeleteAccountClick = () => {
         fetch(`/clients/${currentClient.id}`, {
           method: "DELETE"
         })
@@ -59,7 +68,7 @@ function App() {
           }
         })
         .catch(e => console.error(e))
-      };
+    };
 
     useEffect(() => {
         fetch("/check-user")
@@ -88,19 +97,52 @@ function App() {
 
     return (
         <div>
-            <Switch>
-                <Route exact path ="/">
-                    <ClientProfile handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
-                </Route>
-                <Route path = "/clients/:id/edit-profile">
-                    <EditProfileForm handleSignOutClick={handleSignOutClick} currentClient={currentClient} saveClient={saveClient} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
-                </Route>
-                <Route path = "/trainers">
-                    <TrainerCollection trainers={trainers} handleSignOutClick={handleSignOutClick} handleEditProfileClick={handleEditProfileClick} handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleDeleteAccountClick={handleDeleteAccountClick}/>
-                </Route>
-            </Switch>
+          <Switch>
+            <UserContext.Provider>
+              <Route exact path="/">
+                <ClientProfile
+                  handleSignOutClick={handleSignOutClick}
+                  currentClient={currentClient}
+                  saveClient={saveClient}
+                  handleEditProfileClick={handleEditProfileClick}
+                  handleTrainersClick={handleTrainersClick}
+                  handleCreateWorkoutClick={handleCreateWorkoutClick}
+                  handleDeleteAccountClick={handleDeleteAccountClick}
+                  handleContactUsClick={handleContactUsClick}
+                />
+              </Route>
+              <Route path="/clients/:id/edit-profile">
+                <EditProfileForm
+                  handleSignOutClick={handleSignOutClick}
+                  currentClient={currentClient}
+                  saveClient={saveClient}
+                  handleEditProfileClick={handleEditProfileClick}
+                  handleTrainersClick={handleTrainersClick}
+                  handleCreateWorkoutClick={handleCreateWorkoutClick}
+                  handleDeleteAccountClick={handleDeleteAccountClick}
+                />
+              </Route>
+              <Route path="/trainers">
+                <TrainerCollection
+                  trainers={trainers}
+                  handleSignOutClick={handleSignOutClick}
+                  handleEditProfileClick={handleEditProfileClick}
+                  handleTrainersClick={handleTrainersClick}
+                  handleCreateWorkoutClick={handleCreateWorkoutClick}
+                  handleDeleteAccountClick={handleDeleteAccountClick}
+                />
+              </Route>
+              <Route path="/create-workout">
+                <NewExerciseForm />
+              </Route>
+              <Route path="/contact-us">
+                <ContactUsForm />
+              </Route>
+            </UserContext.Provider>
+          </Switch>
         </div>
-    );
+      );
+      
 }
 
 export default App;
