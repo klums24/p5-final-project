@@ -38,7 +38,7 @@ function WorkoutCollection({handleSignOutClick, handleEditProfileClick, handleTr
         </Box>
         </Toolbar>
         </AppBar>
-        <h2>PerfectFit's trainers</h2>
+        <h2>Your workouts:</h2>
         <div class="container">
             {mappedWorkouts}
         </div>
