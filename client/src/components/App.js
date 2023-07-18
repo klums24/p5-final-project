@@ -10,6 +10,7 @@ import TrainerCollection from './TrainerCollection';
 import NewExerciseForm from './NewExerciseForm';
 import {UserContext} from './UserContext';
 import ContactUsForm from './ContactUsForm';
+import NewWorkoutForm from './NewWorkoutForm';
 
 
 
@@ -132,8 +133,8 @@ function App() {
                   handleDeleteAccountClick={handleDeleteAccountClick}
                 />
               </Route>
-              <Route path="/create-workout">
-                <NewExerciseForm />
+              <Route path="/create-workout/:trainerId">
+                <NewWorkoutForm trainers={trainers} />
               </Route>
               <Route path="/contact-us">
                 <ContactUsForm />

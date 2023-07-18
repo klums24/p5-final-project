@@ -13,6 +13,7 @@ sqlalchemy = "*"
 "sqlalchemy.orm" = "*"
 sqlalchemy-serializer = "*"
 flask-bcrypt = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
