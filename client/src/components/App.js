@@ -11,6 +11,7 @@ import NewExerciseForm from './NewExerciseForm';
 import {UserContext} from './UserContext';
 import ContactUsForm from './ContactUsForm';
 import NewWorkoutForm from './NewWorkoutForm';
+import WorkoutCollection from './WorkoutCollection';
 
 
 
@@ -20,7 +21,7 @@ function App() {
     const [currentClient, setCurrentClient] = useState(null);
     const [showSigninForm, setShowSigninForm] = useState(false);
     const [trainers, setTrainers] = useState([])
-
+    const [workouts, setWorkouts] = useState([])
     
 
     useEffect(() => {
@@ -30,9 +31,23 @@ function App() {
                 response.json()
                 .then(data => {
                     setTrainers(data)
+                    console.log(data)
                 })
             }
         })
+    }, [])
+
+    useEffect(() => {
+      fetch("/workouts")
+      .then(response => {
+          if (response.ok) {
+              response.json()
+              .then(data => {
+                  setWorkouts(data)
+
+              })
+          }
+      })
     }, [])
 
     const saveClient = (new_client) => {
@@ -110,6 +125,8 @@ function App() {
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
                   handleDeleteAccountClick={handleDeleteAccountClick}
                   handleContactUsClick={handleContactUsClick}
+                  workouts={workouts}
+                  trainers={trainers}
                 />
               </Route>
               <Route path="/clients/:id/edit-profile">
@@ -131,6 +148,18 @@ function App() {
                   handleTrainersClick={handleTrainersClick}
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
                   handleDeleteAccountClick={handleDeleteAccountClick}
+                />
+              </Route>
+              <Route path = "/workouts">
+                <WorkoutCollection 
+                workouts={workouts} 
+                trainers={trainers}
+                handleSignOutClick={handleSignOutClick}
+                handleEditProfileClick={handleEditProfileClick}
+                handleTrainersClick={handleTrainersClick}
+                handleCreateWorkoutClick={handleCreateWorkoutClick}
+                handleDeleteAccountClick={handleDeleteAccountClick}
+                currentClient={currentClient}
                 />
               </Route>
               <Route path="/create-workout/:trainerId">

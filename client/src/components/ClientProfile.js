@@ -1,11 +1,13 @@
 import React from 'react';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
-
-function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick}) {
+import WorkoutCard from './WorkoutCard';
+import WorkoutCollection from './WorkoutCollection';
+function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick, workouts, trainers}) {
 
 
   const {first_name, last_name, id} = currentClient
-
+  const filteredWorkouts = workouts.filter(workout => workout.client_id === currentClient.id);
+  const mappedWorkouts = filteredWorkouts.map (workout => <WorkoutCard key={workout.id} {...workout} trainers={trainers} workouts={workouts}/>)
   
 
   return (
@@ -40,6 +42,17 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEdi
         </Toolbar>
       </AppBar>
       <h2 className="profile-header">{first_name}</h2>
+      {/* <div className="workouts-container">
+        <h3>Your Workouts</h3>
+        <div className="workouts-list">
+          {clientWorkouts.map(workout => (
+            <WorkoutCard key={workout.id} {...workout} />
+          ))}
+        </div>
+      </div> */}
+      <div>
+        {mappedWorkouts}
+      </div>
     </div>
   );
 }
