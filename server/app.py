@@ -128,6 +128,24 @@ class Workouts(Resource):
             return make_response({"error": str(e)}, 400)
 api.add_resource(Workouts, "/workouts")
 
+class WorkoutById(Resource):
+
+    def get(self, id):
+        workout = db.session.get(Workout, id)
+        if workout:
+            return make_response(workout.to_dict(), 200)
+        return make_response({"error": "Workout not found"}, 404)
+    
+    def delete(self, id):
+        try:
+            workout = db.session.get(Workout, id)
+            db.session.delete(workout)
+            db.session.commit()
+            return make_response({}, 204)
+        except Exception as e:
+            return make_response({"error": str(e)}, 404)
+        
+api.add_resource(WorkoutById, "/workouts/<int:id>")        
 #trainers route
 class Trainers(Resource):
 
