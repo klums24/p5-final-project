@@ -23,10 +23,25 @@ function NewExerciseForm() {
     },
     validationSchema: exerciseSchema,
     onSubmit: (values) => {
-      console.log('Exercise form submitted:', values);
-      // Save exercise data and perform any necessary processing
-      // Redirect to the NewWorkoutForm component
-      history.push('/new-workout');
+      fetch('/exercises', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log('Exercise added successfully');
+            // Perform any additional actions upon successful submission
+            history.push('/new-workout');
+          } else {
+            console.error('Failed to add exercise');
+          }
+        })
+        .catch((error) => {
+          console.error('An error occurred while adding the exercise:', error);
+        });
     },
   });
 

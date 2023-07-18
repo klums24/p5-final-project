@@ -67,7 +67,7 @@ function App() {
     };
     
     const handleCreateWorkoutClick = () => {
-        history.push('/create-workout');
+        history.push('/create-exercise');
     };
 
     const handleContactUsClick = () => {
@@ -164,6 +164,9 @@ function App() {
               </Route>
               <Route path="/create-workout/:trainerId">
                 <NewWorkoutForm trainers={trainers} />
+              </Route>
+              <Route path="/create-exercise">
+                <NewExerciseForm />
               </Route>
               <Route path="/contact-us">
                 <ContactUsForm />
