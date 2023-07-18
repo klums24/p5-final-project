@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 import WorkoutCard from './WorkoutCard';
 import WorkoutCollection from './WorkoutCollection';
-function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick, workouts, trainers}) {
+function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick, handleCreateRoutineClick, workouts, trainers}) {
 
 
   const {first_name, last_name, id} = currentClient
@@ -25,6 +25,9 @@ function ClientProfile({handleSignOutClick, currentClient, saveClient, handleEdi
             </Button>
             <Button onClick={handleCreateWorkoutClick} color="inherit">
               Create a workout
+            </Button>
+            <Button onClick={handleCreateRoutineClick} color="inherit">
+              Create a routine
             </Button>
             <Button onClick={handleEditProfileClick} color="inherit">
               Edit Profile

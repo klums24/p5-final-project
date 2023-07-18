@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
 
-from models import Workout, Client, Trainer, Exercise, db
+from models import Workout, Client, Trainer, Exercise, Routine, db
 
 
 from dateutil import parser
@@ -113,13 +113,13 @@ class Workouts(Resource):
         try:
             data = request.get_json()
             workout = Workout(
-            client_id=session.get("client_id"),
-            trainer_id=data.get("trainer_id"),
-            workout_type=data.get("workout_type"),
-            date=parser.parse(data.get("date")).date(),
-            start_time=data.get("start_time"),
-            end_time=data.get("end_time"),
-        )
+                client_id=session.get("client_id"),
+                trainer_id=data.get("trainer_id"),
+                workout_type=data.get("workout_type"),
+                date=parser.parse(data.get("date")).date(),
+                start_time=data.get("start_time"),
+                end_time=data.get("end_time"),
+            )
             db.session.add(workout)
             db.session.commit()
 
@@ -192,6 +192,12 @@ api.add_resource(ClientById, "/clients/<int:id>")
 
 class Exercises(Resource):
 
+    def get(self):
+        exercises = [exercise.to_dict() for exercise in Exercise.query.all()]
+        if exercises:
+            return make_response(exercises, 200)
+        return make_response("Did not retrieve any exercises", 404)
+    
     def post(self):
         try:
             data = request.get_json()
@@ -210,6 +216,23 @@ class Exercises(Resource):
 
 api.add_resource(Exercises, "/exercises")
 
+class Routines(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            workout_id = data.get("workout_id")
+            exercise_id = data.get("exercise_id")
+            routine = Routine( 
+                workout_id=workout_id, 
+                exercise_id=exercise_id
+            )
+            db.session.add(routine)
+            db.session.commit()
+            return make_response(routine.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
+api.add_resource(Routines, "/routines")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

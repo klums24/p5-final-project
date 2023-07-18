@@ -101,6 +101,7 @@ class Routine(db.Model, SerializerMixin):
     workout = db.relationship("Workout", back_populates="routines")
     exercise = db.relationship("Exercise", back_populates="routines")
 
+    serialize_rules = ("-workout.routines", "-exercise.routines")
 
 
 
