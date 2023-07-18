@@ -12,6 +12,8 @@ from sqlalchemy import MetaData
 
 from models import Workout, Client, Trainer, Exercise, db
 
+
+from dateutil import parser
 # Local imports
 # from config import app
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -106,6 +108,24 @@ class Workouts(Resource):
             return make_response(workouts, 200)
         return make_response("Did not retrieve any workouts", 404)
 
+
+    def post(self):
+        try:
+            data = request.get_json()
+            workout = Workout(
+            client_id=session.get("client_id"),
+            trainer_id=data.get("trainer_id"),
+            workout_type=data.get("workout_type"),
+            date=parser.parse(data.get("date")).date(),
+            start_time=data.get("start_time"),
+            end_time=data.get("end_time"),
+        )
+            db.session.add(workout)
+            db.session.commit()
+
+            return make_response(workout.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
 api.add_resource(Workouts, "/workouts")
 
 #trainers route
