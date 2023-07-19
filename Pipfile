@@ -14,6 +14,7 @@ sqlalchemy = "*"
 sqlalchemy-serializer = "*"
 flask-bcrypt = "*"
 python-dateutil = "*"
+ipdb = "*"
 
 [dev-packages]
 

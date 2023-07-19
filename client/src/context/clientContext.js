@@ -15,6 +15,7 @@ const ClientProvider = ({children}) => {
     const saveClient = (new_client) => {
         setCurrentClient(new_client);
     };
+
     useEffect(() => {
         fetch("/check-user")
         .then(response => {
@@ -62,7 +63,7 @@ const ClientProvider = ({children}) => {
     }
 
     return (
-        <ClientContext.Provider value={{currentClient, handleDeleteAccountClick, handleSignOutClick}}>
+        <ClientContext.Provider value={{currentClient, handleDeleteAccountClick, handleSignOutClick, saveClient}}>
             {children}
         </ClientContext.Provider>
 

@@ -16,6 +16,11 @@ import NavBar from './NavBar';
 import { ClientContext } from '../context/clientContext';
 import NewRoutineForm from './NewRoutineForm';
 import Chat from './Chat'
+
+
+
+
+
 function App() {
 
     const history = useHistory();
@@ -64,7 +69,9 @@ function App() {
       })
     }, [])
    
-
+    const handleAddWorkout = (new_workout) => {
+      setWorkouts([...workouts, new_workout])
+    }
     
 
     const handleTrainersClick = () => {
@@ -78,9 +85,10 @@ function App() {
     const handleContactUsClick = () => {
         history.push('/chat')
     }
+    
     const handleCreateRoutineClick = () => {
-      history.push('/create-routine');
-    };
+        history.push("/create-routine")
+    }
     
     return (
         <div>
@@ -110,7 +118,7 @@ function App() {
                 />
               </Route>
               <Route path="/create-workout/:trainerId">
-                <NewWorkoutForm trainers={trainers} />
+                <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
               </Route>
               <Route path="/create-routine">
                 <NewRoutineForm handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>

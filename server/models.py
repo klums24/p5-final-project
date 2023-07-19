@@ -51,6 +51,7 @@ class Client(db.Model, SerializerMixin):
     def validate_first_name(self, key, first_name):
         if not first_name or not 3 < len(first_name) < 21:
             raise ValueError("First name must be at least 3 letters and cannot exceed 20 letters")
+        return first_name
     @validates("last_name")
     def validate_last_name(self, key, last_name):
         if not last_name or not 2 < len(last_name) < 21:
@@ -94,6 +95,7 @@ class Trainer(db.Model, SerializerMixin):
     def validate_first_name(self, key, first_name):
         if not first_name or not 3 < len(first_name) < 21:
             raise ValueError("First name must be at least 3 letters and cannot exceed 20 letters")
+        return first_name
     @validates("last_name")
     def validate_last_name(self, key, last_name):
         if not last_name or not 2 < len(last_name) < 21:
@@ -107,12 +109,12 @@ class Trainer(db.Model, SerializerMixin):
             return current_email_address
         return ValueError("The email provided is invalid")
     
-    @validates("password")
-    def validate_password(self, key, password):
-        regex = re.compile(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=.*?[\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^])[A-Za-z0-9\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^]{8,60}$')
-        if re.fullmatch(regex, password):
-            return password        
-        return ValueError("The password provided is invalid")
+    # @validates("password")
+    # def validate_password(self, key, password):
+    #     regex = re.compile(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=.*?[\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^])[A-Za-z0-9\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^]{8,60}$')
+    #     if re.fullmatch(regex, password):
+    #         return password        
+    #     return ValueError("The password provided is invalid")
     
     
 
@@ -155,7 +157,7 @@ class Routine(db.Model, SerializerMixin):
     workout = db.relationship("Workout", back_populates="routines")
     exercise = db.relationship("Exercise", back_populates="routines")
 
-    serialize_rules = ("-workout.routines", "-exercise.routines")
+
 
 
 
@@ -174,4 +176,5 @@ class Exercise(db.Model, SerializerMixin):
 
     routines = db.relationship("Routine", back_populates="exercise")
 
+    serialize_rules = ("-routines.exercise",)
     #do i need associatyion proxy to workout here?

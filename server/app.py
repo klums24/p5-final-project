@@ -65,6 +65,7 @@ class Signup(Resource):
                 password_hash=data["password"],
                 main_goal=data["main_goal"]
             )
+            
             db.session.add(new_client)
             db.session.commit()
             session["client_id"] = new_client.id
@@ -114,11 +115,11 @@ class Workouts(Resource):
             data = request.get_json()
             workout = Workout(
             client_id=session.get("client_id"),
-            trainer_id=data["trainer_id"],
-            workout_type=data["workout_type"],
-            date=parser.parse(data["date"]).date(),
-            start_time=data["start_time"],
-            end_time=data["end_time"],
+            trainer_id=data.get("trainer_id"),
+            workout_type=data.get("workout_type"),
+            date=parser.parse(data.get("date")).date(),
+            start_time=data.get("start_time"),
+            end_time=data.get("end_time"),
         )
             db.session.add(workout)
             db.session.commit()
@@ -191,6 +192,7 @@ api.add_resource(ClientById, "/clients/<int:id>")
 
 
 class Exercises(Resource):
+
     def get(self):
         exercises = [exercise.to_dict() for exercise in Exercise.query.all()]
         if exercises:
@@ -215,23 +217,6 @@ class Exercises(Resource):
 
 api.add_resource(Exercises, "/exercises")
 
-class Routines(Resource):
-    def post(self):
-        try:
-            data = request.get_json()
-            workout_id = data["workout_id"]
-            exercise_id = data["exercise_id"]
-            routine = Routine( 
-                workout_id=workout_id, 
-                exercise_id=exercise_id
-            )
-            db.session.add(routine)
-            db.session.commit()
-            return make_response(routine.to_dict(), 201)
-        except Exception as e:
-            return make_response({"error": str(e)}, 400)
-
-api.add_resource(Routines, "/routines")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { useContext } from 'react';
-import { ClientContext } from '../context/clientContext';
-function NewRoutineForm({ workouts, trainers, exercises }) {
+
+function NewRoutineForm({ currentClient, handleCreateRoutineClick, workouts, trainers, exercises }) {
   const history = useHistory();
-  const {currentClient} = useContext(ClientContext)
   const [selectedWorkout, setSelectedWorkout] = useState('');
   const [selectedExercise, setSelectedExercise] = useState('');
 
