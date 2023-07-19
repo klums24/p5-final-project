@@ -46,6 +46,30 @@ class Client(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode("utf-8"))
+    
+    @validates("first_name")
+    def validate_first_name(self, key, first_name):
+        if not first_name or not 3 < len(first_name) < 21:
+            raise ValueError("First name must be at least 3 letters and cannot exceed 20 letters")
+    @validates("last_name")
+    def validate_last_name(self, key, last_name):
+        if not last_name or not 2 < len(last_name) < 21:
+          raise ValueError("Last name must be at least 2 letters and cannot exceed 20 letters")
+        return last_name
+
+    @validates("email_address")
+    def validate_email(self, key, current_email_address):
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, current_email_address):
+            return current_email_address
+        return ValueError("The email provided is invalid")
+    
+    @validates("password")
+    def validate_password(self, key, password):
+        regex = re.compile(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=.*?[\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^])[A-Za-z0-9\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^]{8,60}$')
+        if re.fullmatch(regex, password):
+            return password        
+        return ValueError("The password provided is invalid")
 #Create Trainer class
 #first name, last name, email, password, specialization, bio
 class Trainer(db.Model, SerializerMixin):
@@ -66,6 +90,32 @@ class Trainer(db.Model, SerializerMixin):
     serialize_rules = ("-workouts.trainer", "-clients.trainers")
 #Create Workout class
 #id, client_id, trainer_id, workout_type, date, start_time, end_time
+    @validates("first_name")
+    def validate_first_name(self, key, first_name):
+        if not first_name or not 3 < len(first_name) < 21:
+            raise ValueError("First name must be at least 3 letters and cannot exceed 20 letters")
+    @validates("last_name")
+    def validate_last_name(self, key, last_name):
+        if not last_name or not 2 < len(last_name) < 21:
+          raise ValueError("Last name must be at least 2 letters and cannot exceed 20 letters")
+        return last_name
+
+    @validates("email_address")
+    def validate_email(self, key, current_email_address):
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, current_email_address):
+            return current_email_address
+        return ValueError("The email provided is invalid")
+    
+    @validates("password")
+    def validate_password(self, key, password):
+        regex = re.compile(r'^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=.*?[\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^])[A-Za-z0-9\!\#\@\$\%\&\/\(\)\=\?\*\-\+\-\_\.\:\;\,\]\[\{\}\^]{8,60}$')
+        if re.fullmatch(regex, password):
+            return password        
+        return ValueError("The password provided is invalid")
+    
+    
+
 class Workout(db.Model, SerializerMixin):
     __tablename__ = "workouts"
 
@@ -86,8 +136,12 @@ class Workout(db.Model, SerializerMixin):
     serialize_only = ("id", "client_id", "trainer_id", "workout_type", "date", "start_time", "end_time")
     serialize_rules = ("-client.workouts", "-trainer.workouts")
     #is association proxy to exercise needed here?
-
-
+    
+    @validates("workout_type")
+    def validate_workout_type(self, key, workout_type):
+        if not workout_type or not len(workout_type) < 21:
+            raise ValueError("Please describe your workout type in less than 20 characters") 
+        return workout_type
 #Create Routine class
 #workout_id, exercise_id
 class Routine(db.Model, SerializerMixin):
@@ -101,7 +155,7 @@ class Routine(db.Model, SerializerMixin):
     workout = db.relationship("Workout", back_populates="routines")
     exercise = db.relationship("Exercise", back_populates="routines")
 
-
+    serialize_rules = ("-workout.routines", "-exercise.routines")
 
 
 
