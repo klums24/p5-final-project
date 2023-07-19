@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { ClientContext } from '../context/clientContext';
 
 
-function ClientProfile({handleSignOutClick, saveClient, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, handleContactUsClick, workouts, trainers}) {
+function ClientProfile({workouts, trainers}) {
   const {currentClient} = useContext(ClientContext)
 
   
@@ -16,13 +16,8 @@ function ClientProfile({handleSignOutClick, saveClient, handleEditProfileClick, 
 
   return (
     <div>
-      
-      <h2 className="profile-header">Kevin</h2>
-      
-      <div>
-        {mappedWorkouts}
-      </div>
-    // </div>
+        {mappedWorkouts}  
+    </div>
   );
 }
 

@@ -34,7 +34,7 @@ function NewExerciseForm() {
           if (response.ok) {
             console.log('Exercise added successfully');
             // Perform any additional actions upon successful submission
-            history.push('/new-workout');
+            history.push('/');
           } else {
             console.error('Failed to add exercise');
           }

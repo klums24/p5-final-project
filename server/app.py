@@ -114,13 +114,13 @@ class Workouts(Resource):
         try:
             data = request.get_json()
             workout = Workout(
-            client_id=session.get("client_id"),
-            trainer_id=data.get("trainer_id"),
-            workout_type=data.get("workout_type"),
-            date=parser.parse(data.get("date")).date(),
-            start_time=data.get("start_time"),
-            end_time=data.get("end_time"),
-        )
+                client_id=session.get("client_id"),
+                trainer_id=data.get("trainer_id"),
+                workout_type=data.get("workout_type"),
+                date=parser.parse(data.get("date")).date(),
+                start_time=data.get("start_time"),
+                end_time=data.get("end_time"),
+            )
             db.session.add(workout)
             db.session.commit()
 
@@ -217,6 +217,23 @@ class Exercises(Resource):
 
 api.add_resource(Exercises, "/exercises")
 
+class Routines(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            workout_id = data.get("workout_id")
+            exercise_id = data.get("exercise_id")
+            routine = Routine( 
+                workout_id=workout_id, 
+                exercise_id=exercise_id
+            )
+            db.session.add(routine)
+            db.session.commit()
+            return make_response(routine.to_dict(), 201)
+        except Exception as e:
+            return make_response({"error": str(e)}, 400)
+
+api.add_resource(Routines, "/routines")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

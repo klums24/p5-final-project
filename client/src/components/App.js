@@ -68,6 +68,8 @@ function App() {
           }
       })
     }, [])
+
+    
    
     const handleAddWorkout = (new_workout) => {
       setWorkouts([...workouts, new_workout])
@@ -82,22 +84,30 @@ function App() {
         history.push('/create-exercise');
     };
 
+    const handleCreateRoutineClick = () => {
+      history.push('/create-routine');
+    };
+
     const handleContactUsClick = () => {
         history.push('/chat')
     }
     
-    const handleCreateRoutineClick = () => {
-        history.push("/create-routine")
-    }
+    
     
     return (
         <div>
           <NavBar handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleContactUsClick={handleContactUsClick} />
           <Switch>
             
-              
-              
-              
+              <Route exact path="/">
+                <ClientProfile
+                  handleTrainersClick={handleTrainersClick}
+                  handleCreateWorkoutClick={handleCreateWorkoutClick}
+                  handleContactUsClick={handleContactUsClick}
+                  workouts={workouts}
+                  trainers={trainers}
+                />
+              </Route>
               <Route path="/clients/:id/edit-profile">
                 <EditProfileForm 
                   handleTrainersClick={handleTrainersClick}
@@ -120,14 +130,8 @@ function App() {
               <Route path="/create-workout/:trainerId">
                 <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
               </Route>
-              <Route path="/create-routine">
-                <NewRoutineForm handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>
-              </Route>
               <Route path="/create-exercise">
                 <NewExerciseForm />
-              </Route>
-              <Route path="/contact-us">
-                <ContactUsForm />
               </Route>
               <Route path="/chat">
                 <Chat />
