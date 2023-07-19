@@ -10,7 +10,7 @@ const workoutSchema = yup.object({
   end_time: yup.string().required('End time is required'),
 });
 
-function NewWorkoutForm() {
+function NewWorkoutForm({handleAddWorkout}) {
   const { trainerId } = useParams();
   const history = useHistory();
 
@@ -35,6 +35,7 @@ function NewWorkoutForm() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Workout created:", data);
+        handleAddWorkout(data)
         history.push('/workouts');
       })
       .catch((error) => {

@@ -65,6 +65,7 @@ class Signup(Resource):
                 password_hash=data["password"],
                 main_goal=data["main_goal"]
             )
+            
             db.session.add(new_client)
             db.session.commit()
             session["client_id"] = new_client.id

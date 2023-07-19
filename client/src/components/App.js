@@ -8,20 +8,26 @@ import ClientProfile from './ClientProfile'
 import EditProfileForm from './EditProfileForm';
 import TrainerCollection from './TrainerCollection';
 import NewExerciseForm from './NewExerciseForm';
-import {UserContext} from './UserContext';
+
 import ContactUsForm from './ContactUsForm';
 import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutCollection from './WorkoutCollection';
 import Chat from './Chat';
 import NewRoutineForm from './NewRoutineForm';
+import NavBar from './NavBar';
+import { ClientContext } from '../context/clientContext';
+import NewRoutineForm from './NewRoutineForm';
+import Chat from './Chat'
+
+
 
 
 
 function App() {
 
     const history = useHistory();
-    const [currentClient, setCurrentClient] = useState(null);
-    const [showSigninForm, setShowSigninForm] = useState(false);
+    
+    
     const [trainers, setTrainers] = useState([])
     const [workouts, setWorkouts] = useState([])
     const [exercises, setExercises] = useState([])
@@ -65,17 +71,25 @@ function App() {
       })
     }, [])
 
-    const saveClient = (new_client) => {
-        setCurrentClient(new_client);
-    };
+    useEffect(() => {
+      fetch("/exercises")
+      .then(response => {
+          if (response.ok) {
+              response.json()
+              .then(data => {
+                  setExercises(data)
 
-    const handleToggleForm = () => {
-        setShowSigninForm(value => !value);
-    };
+              })
+          }
+      })
+    }, [])
 
-    const handleEditProfileClick = () => {
-        history.push(`/clients/${currentClient.id}/edit-profile`);
-    };
+    
+   
+    const handleAddWorkout = (new_workout) => {
+      setWorkouts([...workouts, new_workout])
+    }
+    
 
     const handleTrainersClick = () => {
         history.push('/trainers');
@@ -85,64 +99,21 @@ function App() {
         history.push('/create-exercise');
     };
 
-    const handleCreateRoutineClick = () => {
-      history.push('/create-routine');
-    };
-
     const handleContactUsClick = () => {
-        history.push('/chat')
+        history.push('/contact-us')
     }
     
-    const handleDeleteAccountClick = () => {
-        fetch(`/clients/${currentClient.id}`, {
-          method: "DELETE"
-        })
-        .then(response => {
-          if (response.ok){
-            saveClient(null)    
-          }
-        })
-        .catch(e => console.error(e))
-    };
-
-    useEffect(() => {
-        fetch("/check-user")
-        .then(response => {
-          if (response.ok){
-            response.json()
-            .then(saveClient)
-          }
-        })
-    }, [])
-
-    const handleSignOutClick= () => {
-        fetch("/signout", {method: "DELETE"})
-        .then(() => {
-        setCurrentClient(null);   
-        },);
-    }
-
-    if (!currentClient) {
-        return (
-            <>
-                {showSigninForm ? <SigninForm saveClient={saveClient} handleToggleForm={handleToggleForm} /> : <NewClientForm saveClient={saveClient} handleToggleForm={handleToggleForm} />}
-            </>
-        );
-    }
-
+    
+    
     return (
         <div>
+          <NavBar handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleContactUsClick={handleContactUsClick} />
           <Switch>
-            <UserContext.Provider>
+            
               <Route exact path="/">
                 <ClientProfile
-                  handleSignOutClick={handleSignOutClick}
-                  currentClient={currentClient}
-                  saveClient={saveClient}
-                  handleEditProfileClick={handleEditProfileClick}
                   handleTrainersClick={handleTrainersClick}
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
-                  handleDeleteAccountClick={handleDeleteAccountClick}
                   handleContactUsClick={handleContactUsClick}
                   handleCreateRoutineClick={handleCreateRoutineClick}
                   workouts={workouts}
@@ -150,40 +121,29 @@ function App() {
                 />
               </Route>
               <Route path="/clients/:id/edit-profile">
-                <EditProfileForm
-                  handleSignOutClick={handleSignOutClick}
-                  currentClient={currentClient}
-                  saveClient={saveClient}
-                  handleEditProfileClick={handleEditProfileClick}
+                <EditProfileForm 
                   handleTrainersClick={handleTrainersClick}
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
-                  handleDeleteAccountClick={handleDeleteAccountClick}
                 />
               </Route>
               <Route path="/trainers">
                 <TrainerCollection
                   trainers={trainers}
-                  handleSignOutClick={handleSignOutClick}
-                  handleEditProfileClick={handleEditProfileClick}
                   handleTrainersClick={handleTrainersClick}
-                  handleCreateWorkoutClick={handleCreateWorkoutClick}
-                  handleDeleteAccountClick={handleDeleteAccountClick}
                 />
               </Route>
               <Route path = "/workouts">
                 <WorkoutCollection 
                 workouts={workouts} 
                 trainers={trainers}
-                handleSignOutClick={handleSignOutClick}
-                handleEditProfileClick={handleEditProfileClick}
                 handleTrainersClick={handleTrainersClick}
-                handleCreateWorkoutClick={handleCreateWorkoutClick}
-                handleDeleteAccountClick={handleDeleteAccountClick}
-                currentClient={currentClient}
                 />
               </Route>
               <Route path="/create-workout/:trainerId">
-                <NewWorkoutForm trainers={trainers} />
+                <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
+              </Route>
+              <Route path="/create-routine">
+                <NewRoutineForm currentClient={currentClient} handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>
               </Route>
               <Route path="/create-routine">
                 <NewRoutineForm currentClient={currentClient} handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>
@@ -194,9 +154,17 @@ function App() {
               <Route path="/chat">
                 <Chat />
               </Route>
-             
-            </UserContext.Provider>
+              <Route exact path="/">
+                <ClientProfile
+                  handleTrainersClick={handleTrainersClick}
+                  handleCreateWorkoutClick={handleCreateWorkoutClick}
+                  handleContactUsClick={handleContactUsClick}
+                  workouts={workouts}
+                  trainers={trainers}
+                />
+              </Route>
           </Switch>
+          
         </div>
       );
       

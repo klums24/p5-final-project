@@ -9,35 +9,6 @@ function TrainerCollection({trainers, handleSignOutClick, handleEditProfileClick
 
     return (
         <div>
-            <AppBar position="static">
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Box>
-                <Typography variant="h4" component="div" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
-                <Link to="/" class="perfect-fit-link">
-                PerfectFit
-                </Link>
-                </Typography>
-            </Box>
-            <Box>
-                <Button onClick={handleTrainersClick} color="inherit">
-                See all trainers
-                </Button>
-                <Button onClick={handleCreateWorkoutClick} color="inherit">
-                Create a workout
-                </Button>
-                <Button onClick={handleEditProfileClick} color="inherit">
-                Edit Profile
-                </Button>
-                <Button onClick={handleDeleteAccountClick} color="inherit">
-                Delete account
-                </Button>
-                <Button onClick={handleSignOutClick} color="inherit">
-                Sign Out
-                </Button>
-            </Box>
-            </Toolbar>
-            </AppBar>
-            <h2>PerfectFit's trainers</h2>
             <div class="container">
                 {mappedTrainers}
             </div>

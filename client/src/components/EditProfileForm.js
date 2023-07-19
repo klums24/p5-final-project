@@ -3,10 +3,12 @@ import {useFormik} from "formik";
 import * as yup from "yup";
 import { TextField,  AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
 import {useHistory} from 'react-router-dom'
+import { useContext } from 'react';
+import { ClientContext } from '../context/clientContext';
 
-function EditProfileForm({currentClient, saveClient, handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick}) {
+function EditProfileForm({handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick}) {
     const history = useHistory()
-
+    const {currentClient, saveClient} = useContext(ClientContext)
     const handleBackToProfileClick = () => {
         history.push("/")
     }
@@ -49,32 +51,7 @@ function EditProfileForm({currentClient, saveClient, handleSignOutClick, handleE
     });
     return (
       <>
-        <AppBar position="static">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant="h4" component="div" sx={{ fontFamily: 'Arial', fontWeight: 'bold' }}>
-              PerfectFit
-            </Typography>
-          </Box>
-          <Box>
-            <Button onClick={handleTrainersClick} color="inherit">
-              See all trainers
-            </Button>
-            <Button onClick={handleCreateWorkoutClick} color="inherit">
-              Create a workout
-            </Button>
-            <Button onClick={handleEditProfileClick} color="inherit">
-              Edit Profile
-            </Button>
-            <Button onClick={handleDeleteAccountClick} color="inherit">
-              Delete account
-            </Button>
-            <Button onClick={handleSignOutClick} color="inherit">
-              Sign Out
-            </Button>
-          </Box>
-        </Toolbar>
-        </AppBar>
+        
         <form onSubmit={formik.handleSubmit}>
             <div className="form-group">
               <label htmlFor="first_name">First Name:</label>
