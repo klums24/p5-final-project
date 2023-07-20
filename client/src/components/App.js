@@ -9,15 +9,14 @@ import EditProfileForm from './EditProfileForm';
 import TrainerCollection from './TrainerCollection';
 import NewExerciseForm from './NewExerciseForm';
 
-import ContactUsForm from './ContactUsForm';
+
 import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutCollection from './WorkoutCollection';
 import Chat from './Chat';
 import NewRoutineForm from './NewRoutineForm';
 import NavBar from './NavBar';
 import { ClientContext } from '../context/clientContext';
-import NewRoutineForm from './NewRoutineForm';
-import Chat from './Chat'
+import { ChatEngine } from 'react-chat-engine'
 
 
 
@@ -100,7 +99,7 @@ function App() {
     };
 
     const handleContactUsClick = () => {
-        history.push('/contact-us')
+        history.push('/chat')
     }
     
     
@@ -115,7 +114,7 @@ function App() {
                   handleTrainersClick={handleTrainersClick}
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
                   handleContactUsClick={handleContactUsClick}
-                  handleCreateRoutineClick={handleCreateRoutineClick}
+                  
                   workouts={workouts}
                   trainers={trainers}
                 />
@@ -143,16 +142,20 @@ function App() {
                 <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
               </Route>
               <Route path="/create-routine">
-                <NewRoutineForm currentClient={currentClient} handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>
+                <NewRoutineForm  workouts={workouts} trainers={trainers} exercises={exercises}/>
               </Route>
               <Route path="/create-routine">
-                <NewRoutineForm currentClient={currentClient} handleCreateRoutineClick={handleCreateRoutineClick} workouts={workouts} trainers={trainers} exercises={exercises}/>
+                <NewRoutineForm  workouts={workouts} trainers={trainers} exercises={exercises}/>
               </Route>
               <Route path="/create-exercise">
                 <NewExerciseForm />
               </Route>
               <Route path="/chat">
-                <Chat />
+                <ChatEngine 
+                  projectID = "1b4515e3-703a-4425-bc33-9bbdd61197ae"  
+                  userName = "Hunter"
+                  userSecret = "HunterSecret"
+                />
               </Route>
               <Route exact path="/">
                 <ClientProfile
