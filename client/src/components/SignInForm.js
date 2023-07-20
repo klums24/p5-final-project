@@ -9,7 +9,17 @@ function SignInForm({ saveClient, handleToggleForm }) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("error");
+  
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
 
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+  
   const userSchema = yup.object({
     email: yup.string().required("Must enter an email"),
     password: yup.string().required("Please enter your password").min(4, "Password must contain at least 4 characters"),
@@ -44,15 +54,7 @@ function SignInForm({ saveClient, handleToggleForm }) {
     },
   });
 
-  const showSnackbar = (message, severity) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setSnackbarOpen(true);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
+ 
 
   return (
     <div className="signin-form" style={{ maxWidth: 400, margin: '0 auto' }}>

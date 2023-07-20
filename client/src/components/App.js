@@ -12,6 +12,7 @@ import NewExerciseForm from './NewExerciseForm';
 
 import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutCollection from './WorkoutCollection';
+import WorkoutCard from './WorkoutCard';
 import Chat from './Chat';
 import NewRoutineForm from './NewRoutineForm';
 import NavBar from './NavBar';
@@ -87,6 +88,10 @@ function App() {
    
     const handleAddWorkout = (new_workout) => {
       setWorkouts([...workouts, new_workout])
+    }
+
+    const handleDeleteWorkout = (workout_id) => {
+
     }
     
 
