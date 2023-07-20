@@ -8,8 +8,10 @@ import { ClientContext } from "../context/clientContext";
 
 function WorkoutCollection({handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, workouts, trainers}) {
     const {currentClient} = useContext(ClientContext)
+    
     const filteredWorkouts = workouts.filter(workout => workout.client_id === currentClient.id);
     const mappedWorkouts = filteredWorkouts.map (workout => <WorkoutCard key={workout.id} {...workout} trainers={trainers} workouts={workouts}/>)
+    
     return (
         <div>
         <h2>Your workouts:</h2>

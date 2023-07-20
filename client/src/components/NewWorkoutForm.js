@@ -40,14 +40,17 @@ function NewWorkoutForm({handleAddWorkout}) {
         },
         body: JSON.stringify(values) })
       .then((resp) => {
+        // debugger  
         if (resp.ok) {
-          resp.json()  
-        }else {
-          resp.json().then((error) => {
-            showSnackbar(error.error, "error")
-          })
+          return resp.json()  
         }
-        })
+        // else {
+        //   resp.json().then((error) => {
+        //     showSnackbar(error.error, "error")
+        //   })
+        // }
+        
+      })
       .then((data) => {
         handleAddWorkout(data)
         history.push('/workouts');
