@@ -16,6 +16,7 @@ function ClientProfile({workouts, trainers}) {
 
   return (
     <div>
+        <h3>Your workouts:</h3>
         {mappedWorkouts}  
     </div>
   );

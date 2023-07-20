@@ -57,7 +57,9 @@ const ClientProvider = ({children}) => {
     if (!currentClient) {
         return (
             <>
+                
                 {showSigninForm ? <SignInForm saveClient={saveClient} handleToggleForm={handleToggleForm} /> : <NewClientForm saveClient={saveClient} handleToggleForm={handleToggleForm} />}
+                
             </>
         );
     }
