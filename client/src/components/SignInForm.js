@@ -1,93 +1,102 @@
-import React from 'react'
-import {useFormik} from "formik";
-import * as yup from "yup";
-import { TextField, Button, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { TextField, Button, Typography, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
-function SignInForm({saveClient, handleToggleForm}) {
+function SignInForm({ saveClient, handleToggleForm }) {
 
-    const userSchema = yup.object({
-      email: yup.string().required("Must enter an email"),
-      password: yup.string()
-        .required("Please enter your password")
-        .min(4, "Password must contain at least 8 characters"),
-    });
-      const formik = useFormik ({
-          initialValues: {
-              email: "",
-              password: "",
-          },
-          validationSchema: userSchema,
-          onSubmit: values => {
-              fetch("/signin", {
-                  method:"POST",
-                  headers: {
-                      "Content-Type": "application/json",   
-                  },
-                  body: JSON.stringify(values, null, 2),
-              }).then(resp => {
-                  console.log("RESP", resp)
-                  if (resp.ok) {
-                      resp.json()
-                      .then(client => {
-                          saveClient(client)
-                      })
-                  }
-                  else {
-                      resp.json()
-                      .then(error=> {
-                          alert(error.error)
-                      })
-                  }
-              })
-          },
-      });
-  
-     
-  
-    return (
-        <div className="signup-form">
-          <Typography variant="h4" component="h2">Sign In</Typography>
-          <form onSubmit={formik.handleSubmit}>
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("error");
 
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                placeholder="Email"
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="error">{formik.errors.email}</div>
-              )}
-            </div>
-    
-            <div className="form-group">
-              <label htmlFor="password">Password:</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-                placeholder="Password"
-              />
-              {formik.touched.password && formik.errors.password && (
-                <div className="error">{formik.errors.password}</div>
-              )}
-            </div>
-    
-            <Button type="submit" variant="contained" color="primary" size="small">Submit</Button>
-          </form>
-          <Button onClick={handleToggleForm} variant="text">
-            Click here to sign up!
-          </Button>
+  const userSchema = yup.object({
+    email: yup.string().required("Must enter an email"),
+    password: yup.string().required("Please enter your password").min(4, "Password must contain at least 4 characters"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: userSchema,
+    onSubmit: (values) => {
+      fetch("/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values, null, 2),
+      })
+        .then((resp) => {
+          console.log("RESP", resp);
+          if (resp.ok) {
+            resp.json().then((client) => {
+              saveClient(client);
+            });
+          } else {
+            resp.json().then((error) => {
+              showSnackbar(error.error, "error");
+            });
+          }
+        })
+    },
+  });
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  return (
+    <div className="signin-form" style={{ maxWidth: 400, margin: '0 auto' }}>
+      <Typography variant="h4" align = "center">
+        Sign In
+      </Typography>
+      <form onSubmit={formik.handleSubmit}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <TextField
+            id="email"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            placeholder="Email"
+            margin = "normal"
+          />
+          <TextField
+            id="password"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            placeholder="Password"
+            margin = "normal"
+          />
         </div>
-    );
+        <Button type="submit" variant="contained" color="primary" size="small" style={{ marginTop: 16 }}>
+          Submit
+        </Button>
+      </form>
+      <Button onClick={handleToggleForm} variant="text">
+        Click here to sign up!
+      </Button>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <MuiAlert onClose={handleCloseSnackbar} severity={snackbarSeverity} elevation={6} variant="filled">
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+    </div>
+  );
 }
-      
-      export default SignInForm;
+
+export default SignInForm;
