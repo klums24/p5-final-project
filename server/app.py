@@ -218,6 +218,13 @@ class Exercises(Resource):
 api.add_resource(Exercises, "/exercises")
 
 class Routines(Resource):
+
+    def get(self):
+        routines = [routine.to_dict() for routine in Routine.query.all()]
+        if routines:
+            return make_response(routines, 200)
+        return make_response("Did not retrieve any routines", 404)
+    
     def post(self):
         try:
             data = request.get_json()

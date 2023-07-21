@@ -71,6 +71,7 @@ class Client(db.Model, SerializerMixin):
         if re.fullmatch(regex, password):
             return password        
         return ValueError("The password provided is invalid")
+    
 #Create Trainer class
 #first name, last name, email, password, specialization, bio
 class Trainer(db.Model, SerializerMixin):

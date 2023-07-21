@@ -23,7 +23,7 @@ function NewRoutineForm({ currentClient, handleCreateRoutineClick, workouts, tra
       .then((response) => {
         if (response.ok) {
           console.log('New routine created successfully');
-          history.push('/workouts'); 
+          history.push('/'); 
         } else {
           console.error('Failed to create routine');
         }

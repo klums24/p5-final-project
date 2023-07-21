@@ -4,6 +4,7 @@ import WorkoutCard from './WorkoutCard';
 import WorkoutCollection from './WorkoutCollection';
 import { useContext } from 'react';
 import { ClientContext } from '../context/clientContext';
+import ExerciseCollection from './ExerciseCollection';
 
 
 function ClientProfile({workouts, trainers}) {
@@ -17,7 +18,8 @@ function ClientProfile({workouts, trainers}) {
   return (
     <div>
         <h3>Your workouts:</h3>
-        {mappedWorkouts}  
+        {mappedWorkouts}
+        
     </div>
   );
 }
