@@ -17,9 +17,14 @@ function NewWorkoutForm({handleAddWorkout}) {
     workout_type: yup.string().required('Workout type is required'),
     date: yup.date().required('Date is required'),
     start_time: yup.string().required('Start time is required'),
-    end_time: yup.string().required('End time is required'),
-  });
-
+    end_time: yup
+    .string()
+    .required('End time is required')
+    .test('is-after-start', 'End time must be after start time', function (value) {
+      const { start_time } = this.parent;
+      return start_time && value ? value > start_time : true;
+    }),
+  })
   const { trainerId } = useParams();
   const history = useHistory();
 
