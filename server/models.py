@@ -32,7 +32,7 @@ class Client(db.Model, SerializerMixin):
     trainers = association_proxy("workouts", "trainer")
     workouts = db.relationship("Workout", back_populates="client")
 
-    serialize_only = ("id", "first_name", "last_name", "email")
+    serialize_only = ("id", "first_name", "last_name", "email", "main_goal")
     serialize_rules = ("-workouts.client", "-trainers.clients")
 
     @hybrid_property
@@ -82,13 +82,14 @@ class Trainer(db.Model, SerializerMixin):
     last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
+    photo = db.Column(db.String, nullable=False)
     specialization = db.Column(db.String, nullable=False)
     bio = db.Column(db.String, nullable=False)
 
     clients = association_proxy("workouts", "client")
     workouts = db.relationship("Workout", back_populates="trainer")
 
-    serialize_only = ("id", "first_name", "last_name", "email", "specialization", "bio")
+    serialize_only = ("id", "first_name", "last_name", "email", "specialization", "bio", "photo")
     serialize_rules = ("-workouts.trainer", "-clients.trainers")
 #Create Workout class
 #id, client_id, trainer_id, workout_type, date, start_time, end_time
@@ -172,7 +173,7 @@ class Exercise(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    reps = db.Column(db.Integer, nullable=False)
+    reps = db.Column(db.Integer)
     duration = db.Column(db.Integer, nullable=False)
     difficulty = db.Column(db.String, nullable=False)
 

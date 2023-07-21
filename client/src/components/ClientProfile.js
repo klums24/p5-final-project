@@ -18,6 +18,7 @@ function ClientProfile({workouts, trainers}) {
   return (
     <div>
         <h2>Welcome {currentClient.first_name}!</h2>
+        <h3>Main goal: {currentClient.main_goal}</h3>
         <h3>Your workouts:</h3>
         {mappedWorkouts}
         

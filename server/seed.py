@@ -22,7 +22,7 @@ if __name__ == '__main__':
         db.session.commit()
 
         #create some trainers
-        t1 = Trainer(first_name = "John", last_name = "Cena", email = "ucantseeme@yahoo.com", password = "ssss", specialization = "weightlifting", bio = "5 years experience as a personal trainer and bodybuilder")
+        t1 = Trainer(first_name = "John", last_name = "Cena", email = "ucantseeme@yahoo.com", password = "ssss", specialization = "weightlifting", bio = "5 years experience as a personal trainer and bodybuilder", photo = "https://e1.pxfuel.com/desktop-wallpaper/930/349/desktop-wallpaper-plain-white-resolution-is-cool-white-background-thumbnail.jpg")
 
         t2 = Trainer(
             first_name = "Arnold", 
@@ -30,7 +30,8 @@ if __name__ == '__main__':
             email = "getinthechoppa@aol.com", 
             password = "wwww", 
             specialization = "cardio", 
-            bio = "Runs 20 miles a week"
+            bio = "Runs 20 miles a week",
+            photo = "https://i.insider.com/649efcf46e35e9001af91d77?width=1136&format=jpeg"
         )
 
         t3 = Trainer(
@@ -39,7 +40,8 @@ if __name__ == '__main__':
             email = "pearlygates@msn.com", 
             password = "wwww", 
             specialization = "pilates", 
-            bio = "Focuses on meditation and muscular balance"
+            bio = "Focuses on meditation and muscular balance",
+            photo = "https://m0vie.files.wordpress.com/2012/01/brucealmighty5.jpg"
         )
 
         trainers = [t1, t2, t3]
@@ -48,10 +50,10 @@ if __name__ == '__main__':
 
         # Create some exercises
         e1 = Exercise(name="Deadlift", reps=10, duration=20, difficulty="Moderate")
-        e2 = Exercise(name="Pilates", reps=None, duration=30, difficulty="Moderate")
-        e3 = Exercise(name="Running", reps=None, duration=15, difficulty="Easy")
+        e2 = Exercise(name="Pilates", reps=12, duration=30, difficulty="Moderate")
+        e3 = Exercise(name="Running", reps=15, duration=15, difficulty="Easy")
         e4 = Exercise(name="Squat", reps=20, duration=30, difficulty="Hard")
-        e5 = Exercise(name="Yoga", reps=None, duration=15, difficulty="Easy")
+        e5 = Exercise(name="Yoga", reps=5, duration=15, difficulty="Easy")
         e6 = Exercise(name="Jumprope", reps=20, duration=5, difficulty="Moderate")
 
         exercises = [e1, e2, e3, e4]

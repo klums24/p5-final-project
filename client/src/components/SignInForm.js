@@ -4,9 +4,10 @@ import * as yup from 'yup';
 import { TextField, Button, Typography, Snackbar, AppBar, Toolbar, Box } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import NavBar from './NavBar';
-
+import { useHistory } from "react-router-dom";
 function SignInForm({ saveClient, handleToggleForm }) {
 
+  const history = useHistory()
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("error");
@@ -44,7 +45,7 @@ function SignInForm({ saveClient, handleToggleForm }) {
           if (resp.ok) {
             resp.json().then((client) => {
               saveClient(client);
-              showSnackbar("Profile updated successfully!", "success")
+              
             });
           } else {
             resp.json().then((error) => {
@@ -52,6 +53,7 @@ function SignInForm({ saveClient, handleToggleForm }) {
             });
           }
         })
+        
     },
   });
 
