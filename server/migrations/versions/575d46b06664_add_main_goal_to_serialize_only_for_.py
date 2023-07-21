@@ -1,8 +1,8 @@
-"""attempt to fix issue with seeding trainer and their password
+"""add main goal to serialize only for client
 
-Revision ID: a5e84a78ac70
+Revision ID: 575d46b06664
 Revises: 
-Create Date: 2023-07-19 14:31:16.289412
+Create Date: 2023-07-21 04:54:24.482457
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a5e84a78ac70'
+revision = '575d46b06664'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,8 +32,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('reps', sa.Integer(), nullable=True),
-    sa.Column('duration', sa.Integer(), nullable=True),
-    sa.Column('difficulty', sa.String(), nullable=True),
+    sa.Column('duration', sa.Integer(), nullable=False),
+    sa.Column('difficulty', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('trainers',
@@ -42,6 +42,7 @@ def upgrade():
     sa.Column('last_name', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
+    sa.Column('photo', sa.String(), nullable=False),
     sa.Column('specialization', sa.String(), nullable=False),
     sa.Column('bio', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),

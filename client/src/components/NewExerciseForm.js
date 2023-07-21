@@ -9,8 +9,8 @@ function NewExerciseForm() {
 
   const exerciseSchema = yup.object({
     name: yup.string().required('Exercise name is required'),
-    reps: yup.number().required('Reps is required'),
-    duration: yup.number().required('Duration is required'),
+    reps: yup.number().required('Reps is required').min(1, "Reps must be at least 1"),
+    duration: yup.number().required('Duration is required').min(1, "Minutes must be at least 1"),
     difficulty: yup.string().required('Difficulty is required'),
   });
 
