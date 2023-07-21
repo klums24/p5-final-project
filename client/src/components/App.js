@@ -18,6 +18,7 @@ import NewRoutineForm from './NewRoutineForm';
 import NavBar from './NavBar';
 import { ClientContext } from '../context/clientContext';
 import { ChatEngine } from 'react-chat-engine'
+import ExerciseCollection from './ExerciseCollection';
 
 
 
@@ -31,6 +32,7 @@ function App() {
     const [trainers, setTrainers] = useState([])
     const [workouts, setWorkouts] = useState([])
     const [exercises, setExercises] = useState([])
+    const [routines, setRoutines] = useState([])
 
     useEffect(() => {
         fetch("/trainers")
@@ -72,17 +74,20 @@ function App() {
     }, [])
 
     useEffect(() => {
-      fetch("/exercises")
+      fetch("/routines")
       .then(response => {
           if (response.ok) {
               response.json()
               .then(data => {
-                  setExercises(data)
+                  console.log("console log for routines fetch:")
+                  console.log(data)
+                  setRoutines(data)
 
               })
           }
       })
     }, [])
+    
 
     
    
@@ -90,8 +95,9 @@ function App() {
       setWorkouts([...workouts, new_workout])
     }
 
-    const handleDeleteWorkout = (workout_id) => {
-
+   
+    const handleDeleteWorkout = (id_clicked) => {
+      setWorkouts(workouts.filter((workout) => workout.id !== id_clicked));
     }
     
 
@@ -107,28 +113,23 @@ function App() {
         history.push('/chat')
     }
     
+    const handleExercisesClick =() => {
+        history.push("/exercises")
+    }
     
     
     return (
         <div>
-          <NavBar handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleContactUsClick={handleContactUsClick} />
+          <NavBar handleTrainersClick={handleTrainersClick} handleCreateWorkoutClick={handleCreateWorkoutClick} handleContactUsClick={handleContactUsClick} handleExercisesClick={handleExercisesClick} />
           <Switch>
-            
-              <Route exact path="/">
-                <ClientProfile
-                  handleTrainersClick={handleTrainersClick}
-                  handleCreateWorkoutClick={handleCreateWorkoutClick}
-                  handleContactUsClick={handleContactUsClick}
-                  
-                  workouts={workouts}
-                  trainers={trainers}
-                />
-              </Route>
               <Route path="/clients/:id/edit-profile">
                 <EditProfileForm 
                   handleTrainersClick={handleTrainersClick}
                   handleCreateWorkoutClick={handleCreateWorkoutClick}
                 />
+              </Route>
+              <Route path="/create-workout/:trainerId">
+                <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
               </Route>
               <Route path="/trainers">
                 <TrainerCollection
@@ -141,11 +142,14 @@ function App() {
                 workouts={workouts} 
                 trainers={trainers}
                 handleTrainersClick={handleTrainersClick}
+                handleDeleteWorkout={handleDeleteWorkout}
+                setWorkouts={setWorkouts}
                 />
               </Route>
-              <Route path="/create-workout/:trainerId">
-                <NewWorkoutForm trainers={trainers} handleAddWorkout={handleAddWorkout}/>
+              <Route path = "/exercises">
+                <ExerciseCollection exercises={exercises} workouts={workouts} routines={routines}/>
               </Route>
+              
               <Route path="/create-routine">
                 <NewRoutineForm  workouts={workouts} trainers={trainers} exercises={exercises}/>
               </Route>

@@ -42,6 +42,7 @@ function NewWorkoutForm({handleAddWorkout}) {
       .then((resp) => {
         // debugger  
         if (resp.ok) {
+          
           return resp.json()  
         }
         // else {

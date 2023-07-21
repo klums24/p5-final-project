@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { ClientContext } from '../context/clientContext';
 import { useHistory } from 'react-router-dom';
 
-function NavBar({handleTrainersClick, handleCreateWorkoutClick, handleContactUsClick}) {
+function NavBar({handleTrainersClick, handleCreateWorkoutClick, handleContactUsClick, handleExercisesClick}) {
 
     const {currentClient, handleDeleteAccountClick, handleSignOutClick} = useContext(ClientContext)
     const history = useHistory()
@@ -34,6 +34,9 @@ function NavBar({handleTrainersClick, handleCreateWorkoutClick, handleContactUsC
                 </Button>
                 <Button onClick={handleCreateRoutineClick} color="inherit">
                 Create a routine
+                </Button>
+                <Button onClick={handleExercisesClick} color="inherit">
+                See Your Exercises
                 </Button>
                 <Button onClick={handleEditProfileClick} color="inherit">
                 Edit Profile

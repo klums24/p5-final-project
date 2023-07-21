@@ -1,22 +1,22 @@
 import React from "react"
 import WorkoutCard from "./WorkoutCard"
-import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import "./style.css"
-import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ClientContext } from "../context/clientContext";
+import ExerciseCollection from "./ExerciseCollection";
 
-function WorkoutCollection({handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick, workouts, trainers}) {
+function WorkoutCollection({workouts, trainers, handleDeleteWorkout}) {
     const {currentClient} = useContext(ClientContext)
     
     const filteredWorkouts = workouts.filter(workout => workout.client_id === currentClient.id);
-    const mappedWorkouts = filteredWorkouts.map (workout => <WorkoutCard key={workout.id} {...workout} trainers={trainers} workouts={workouts}/>)
+    const mappedWorkouts = filteredWorkouts.map (workout => <WorkoutCard key={workout.id} {...workout} trainers={trainers} workouts={workouts} handleDeleteWorkout={handleDeleteWorkout}/>)
     
     return (
         <div>
         <h2>Your workouts:</h2>
         <div class="container">
             {mappedWorkouts}
+            {/* <ExerciseCollection /> */}
         </div>
     </div>
     )
