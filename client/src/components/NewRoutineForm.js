@@ -46,7 +46,7 @@ function NewRoutineForm({ currentClient, handleCreateRoutineClick, workouts, tra
           required
         >
           {workouts.map((workout) => (
-            <MenuItem key={workout.id} value={workout.id}>{workout.workout_type}</MenuItem>
+            <MenuItem key={workout.id} value={workout.id}>{workout.workout_type} (ID:{workout.id})</MenuItem>
           ))}
         </Select>
       </FormControl>

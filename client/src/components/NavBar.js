@@ -53,7 +53,6 @@ function NavBar({handleTrainersClick, handleCreateWorkoutClick, handleContactUsC
             </Box>
             </Toolbar>
         </AppBar>
-        <h2 className="profile-header">Welcome {currentClient.first_name}!</h2>
         </div>
     )
 }

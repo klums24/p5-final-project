@@ -17,6 +17,7 @@ function ClientProfile({workouts, trainers}) {
 
   return (
     <div>
+        <h2>Welcome {currentClient.first_name}!</h2>
         <h3>Your workouts:</h3>
         {mappedWorkouts}
         

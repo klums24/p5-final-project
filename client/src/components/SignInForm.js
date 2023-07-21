@@ -41,10 +41,10 @@ function SignInForm({ saveClient, handleToggleForm }) {
         body: JSON.stringify(values, null, 2),
       })
         .then((resp) => {
-          console.log("RESP", resp);
           if (resp.ok) {
             resp.json().then((client) => {
               saveClient(client);
+              showSnackbar("Profile updated successfully!", "success")
             });
           } else {
             resp.json().then((error) => {

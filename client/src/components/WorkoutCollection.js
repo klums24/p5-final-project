@@ -14,9 +14,9 @@ function WorkoutCollection({workouts, trainers, handleDeleteWorkout}) {
     return (
         <div>
         <h2>Your workouts:</h2>
-        <div class="container">
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
             {mappedWorkouts}
-            {/* <ExerciseCollection /> */}
+            
         </div>
     </div>
     )
