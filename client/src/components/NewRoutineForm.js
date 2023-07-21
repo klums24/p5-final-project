@@ -29,7 +29,7 @@ function NewRoutineForm({ workouts, exercises }) {
       .then((response) => {
         if (response.ok) {
           console.log('New routine created successfully');
-          history.push('/');
+          history.push('/workouts');
         } else {
           console.error('Failed to create routine');
         }
@@ -40,7 +40,7 @@ function NewRoutineForm({ workouts, exercises }) {
   };
 
   return (
-    <Container maxWidth="sm"> {/* Set the maximum width of the container */}
+    <Container maxWidth="sm"> 
       <div className="new-routine-form">
         <Typography variant="h4" component="h2">
           Create Routine

@@ -61,12 +61,7 @@ function SignInForm({ saveClient, handleToggleForm }) {
 
   return (
     <div>
-      {/* <div style={{ backgroundColor: '#0074D9', padding: '10px', width: '100vw', margin: '0' }}>
-        <Typography variant="h3" align="center" style={{ color: 'white', margin: '0'}}>
-          PerfectFit
-        </Typography>
-        
-      </div> */}
+      
       <AppBar position="static">
         <Toolbar sx={{ justifyContent: "space-between"}}>
           <Box sx={{ width: "100%", textAlign: "center" }}>

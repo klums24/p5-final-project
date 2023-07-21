@@ -1,11 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography, Snackbar } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import MuiAlert from '@mui/material/Alert';
 
 function NewExerciseForm() {
   const history = useHistory();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('error');
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   const exerciseSchema = yup.object({
     name: yup.string().required('Exercise name is required'),
@@ -32,16 +47,14 @@ function NewExerciseForm() {
       })
         .then((response) => {
           if (response.ok) {
-            console.log('Exercise added successfully');
-            // Perform any additional actions upon successful submission
-            history.push('/');
+            history.push('/workouts');
           } else {
-            console.error('Failed to add exercise');
+            response.json().then((error) => {
+              showSnackbar(error.error, "error");
+            });
           }
         })
-        .catch((error) => {
-          console.error('An error occurred while adding the exercise:', error);
-        });
+        
     },
   });
 
@@ -103,6 +116,11 @@ function NewExerciseForm() {
         </div>
         <Button type="submit" variant="contained" color="primary">Submit</Button>
       </form>
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+          <MuiAlert onClose={handleCloseSnackbar} severity={snackbarSeverity} elevation={6} variant="filled">
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
     </div>
   );
 }
