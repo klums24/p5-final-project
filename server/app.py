@@ -86,7 +86,7 @@ class SignIn(Resource):
             if client.authenticate(data.get("password")):
                 session["client_id"] = client.id
                 return make_response(client.to_dict(), 200)
-        return make_response({"error": "Unauthorized"}, 401)
+        return make_response({"error": "Incorrect username/password. Won't tell you which one :)"}, 401)
     
 api.add_resource(SignIn, "/signin")
 

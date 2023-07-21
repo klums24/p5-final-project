@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { TextField, Button, Typography, Snackbar } from '@mui/material';
+import { TextField, Button, Typography, Snackbar, AppBar, Toolbar, Box } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
+import NavBar from './NavBar';
 
 function SignInForm({ saveClient, handleToggleForm }) {
 
@@ -57,46 +58,63 @@ function SignInForm({ saveClient, handleToggleForm }) {
  
 
   return (
-    <div className="signin-form" style={{ maxWidth: 400, margin: '0 auto' }}>
-      <Typography variant="h4" align = "center">
-        Sign In
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <TextField
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            placeholder="Email"
-            margin = "normal"
-          />
-          <TextField
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            placeholder="Password"
-            margin = "normal"
-          />
-        </div>
-        <Button type="submit" variant="contained" color="primary" size="small" style={{ marginTop: 16 }}>
-          Submit
+    <div>
+      {/* <div style={{ backgroundColor: '#0074D9', padding: '10px', width: '100vw', margin: '0' }}>
+        <Typography variant="h3" align="center" style={{ color: 'white', margin: '0'}}>
+          PerfectFit
+        </Typography>
+        
+      </div> */}
+      <AppBar position="static">
+        <Toolbar sx={{ justifyContent: "space-between"}}>
+          <Box sx={{ width: "100%", textAlign: "center" }}>
+            <Typography variant="h4" component="div" sx={{ fontFamily: 'Arial', fontWeight: 'bold', align: 'center'}}>
+                  PerfectFit
+            </Typography>    
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <div className="signin-form" style={{ maxWidth: 400, margin: '0 auto' }}>
+        <Typography variant="h4" align = "center">
+          Sign In
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              placeholder="Email"
+              margin = "normal"
+            />
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              placeholder="Password"
+              margin = "normal"
+            />
+          </div>
+          <Button  type="submit" variant="contained" color="primary" size="small" style={{ marginTop: 16,}}>
+            Submit
+          </Button>
+        </form>
+        <Button onClick={handleToggleForm} variant="text">
+          Click here to sign up!
         </Button>
-      </form>
-      <Button onClick={handleToggleForm} variant="text">
-        Click here to sign up!
-      </Button>
 
-      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <MuiAlert onClose={handleCloseSnackbar} severity={snackbarSeverity} elevation={6} variant="filled">
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+        <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+          <MuiAlert onClose={handleCloseSnackbar} severity={snackbarSeverity} elevation={6} variant="filled">
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
+      </div>
     </div>
   );
 }

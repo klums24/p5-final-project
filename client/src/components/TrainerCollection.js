@@ -4,12 +4,13 @@ import TrainerCard from "./TrainerCard";
 import "./style.css"
 import { Link } from "react-router-dom";
 
-function TrainerCollection({trainers, handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick}) {
+function TrainerCollection({trainers}) {
     const mappedTrainers = trainers.map (trainer => <TrainerCard key={trainer.id} {...trainer}/>)
 
     return (
         <div>
-            <div class="container">
+            <h1 align= "center">Meet our trainers</h1>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                 {mappedTrainers}
             </div>
         </div>
