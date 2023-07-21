@@ -172,11 +172,11 @@ class Exercise(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    reps = db.Column(db.Integer)
-    duration = db.Column(db.Integer)
-    difficulty = db.Column(db.String)
+    reps = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
+    difficulty = db.Column(db.String, nullable=False)
 
     routines = db.relationship("Routine", back_populates="exercise")
 
     serialize_rules = ("-routines.exercise",)
-    #do i need associatyion proxy to workout here?
+    

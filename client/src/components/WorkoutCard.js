@@ -34,7 +34,7 @@ function WorkoutCard({id, client_id, trainer_id, workout_type, date, start_time,
          <p>Start time: {start_time}</p>
          <p>End time: {end_time}</p>
          <p>Workout ID: {id}</p>
-         <button onClick={handleCancelClick}>Cancel</button>
+         <button onClick={handleCancelClick}>Cancel workout</button>
     </div>
   )
 }

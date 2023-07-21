@@ -2,6 +2,7 @@ import {useContext, useState, createContext, useEffect,} from "react"
 import { useHistory } from "react-router-dom";
 import SignInForm from "../components/SignInForm";
 import NewClientForm from "../components/NewClientForm";
+import NavBar from "../components/NavBar";
 
 
 const ClientContext = createContext()
@@ -57,9 +58,9 @@ const ClientProvider = ({children}) => {
     if (!currentClient) {
         return (
             <>
-                
-                {showSigninForm ? <SignInForm saveClient={saveClient} handleToggleForm={handleToggleForm} /> : <NewClientForm saveClient={saveClient} handleToggleForm={handleToggleForm} />}
-                
+                   
+            {showSigninForm ? <SignInForm saveClient={saveClient} handleToggleForm={handleToggleForm} /> : <NewClientForm saveClient={saveClient} handleToggleForm={handleToggleForm} />}
+                     
             </>
         );
     }
