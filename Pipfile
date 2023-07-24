@@ -17,6 +17,7 @@ python-dateutil = "*"
 ipdb = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
+python-dotenv = "*"
 flask-dotenv = "*"
 
 [dev-packages]
