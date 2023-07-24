@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ExerciseCard({id, name, reps, duration, difficulty}) {
+function ExerciseCard({name, reps, duration, difficulty}) {
   return (
     <div className="workout-card">
         <p>name: {name}</p>
