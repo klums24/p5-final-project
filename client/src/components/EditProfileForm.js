@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import { ClientContext } from '../context/clientContext';
 
-function EditProfileForm({ handleSignOutClick, handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick }) {
+function EditProfileForm({handleEditProfileClick, handleTrainersClick, handleCreateWorkoutClick, handleDeleteAccountClick }) {
   const history = useHistory();
   const { currentClient, saveClient } = useContext(ClientContext);
   const handleBackToProfileClick = () => {
