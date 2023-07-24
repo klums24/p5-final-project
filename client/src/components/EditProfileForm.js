@@ -39,7 +39,7 @@ function EditProfileForm({ handleSignOutClick, handleEditProfileClick, handleTra
       main_goal: yup.string().required("Please enter your main workout goal"),
     }),
     onSubmit: (values) => {
-      fetch(`/clients/${currentClient.id}`, {
+      fetch(`/api/v1/clients/${currentClient.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
