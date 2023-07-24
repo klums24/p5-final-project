@@ -29,7 +29,7 @@ function NewClientForm({ saveClient, handleToggleForm }) {
     validationSchema: userSchema,
     onSubmit: values => {
       console.log('Form submitted:', values);
-      fetch('/api/v1/signup', {
+      fetch('/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

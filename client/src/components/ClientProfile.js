@@ -4,7 +4,7 @@ import WorkoutCard from './WorkoutCard';
 import WorkoutCollection from './WorkoutCollection';
 import { useContext } from 'react';
 import { ClientContext } from '../context/clientContext';
-import ExerciseCollection from './ExerciseCollection';
+
 
 
 function ClientProfile({workouts, trainers}) {
