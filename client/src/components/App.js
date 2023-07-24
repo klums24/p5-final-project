@@ -2,8 +2,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 
-import NewClientForm from './NewClientForm';
-import SigninForm from './SignInForm';
+
 import ClientProfile from './ClientProfile'
 import EditProfileForm from './EditProfileForm';
 import TrainerCollection from './TrainerCollection';
