@@ -7,7 +7,7 @@ import NavBar from './NavBar';
 import { useHistory } from "react-router-dom";
 function SignInForm({ saveClient, handleToggleForm }) {
 
-  const history = useHistory()
+  
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("error");
